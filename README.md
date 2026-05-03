@@ -80,7 +80,7 @@ cp .env.example .env
 
 Edit `.env` and add your Gemini API key:
 ```env
-GEMINI_API_KEY=your_actual_gemini_api_key_here
+GEMINI_API_KEY=AIzaSyBYVNA3stHZwNUNUv2sCgcV5lKURvJ2GQc
 PORT=5000
 FRONTEND_URL=http://localhost:3000
 NODE_ENV=development
