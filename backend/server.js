@@ -1,27 +1,22 @@
 const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
-// Middleware setup
-app.use(cors());
-app.use(helmet());
+// Controllers
+const planRoutes = require('./routes/planRoutes');
+const clientRoutes = require('./routes/clientRoutes');
 
-// Rate limiting middleware
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
+app.use('/api/plans', planRoutes);
+app.use('/api/clients', clientRoutes);
 
-// Routes
-app.get('/', (req, res) => {
-    res.send('Welcome to the SKAP Architecture API!');
-});
+// Database connection
+mongoose.connect('mongodb://localhost:27017/skap-architecture', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
 
-// Start the server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
